@@ -56,6 +56,28 @@ Trigger this workflow manually from the Actions tab with:
 
 The workflow will create a release PR that includes all pending issues.
 
+## Enforce CONTRIBUTING.md References
+
+**File:** `enforce-contributing-references.yml`
+
+This workflow checks if new issues and PRs reference the contribution guidelines and adds a reminder comment if they don't.
+
+### How It Works
+
+1. Triggers when an issue or PR is opened or edited
+2. Checks if the body contains a reference to CONTRIBUTING.md or contribution guidelines
+3. If no reference is found, adds a comment with:
+   - A reminder to review the contribution guidelines
+   - A link to the CONTRIBUTING.md file
+   - Specific notes for AI assistants
+
+### Benefits
+
+- Ensures contributors are aware of the contribution guidelines
+- Provides a gentle reminder rather than blocking contributions
+- Includes specific guidance for AI assistants
+- Helps maintain consistent contribution practices
+
 ## Labels Used
 
 These workflows use the following labels:
@@ -69,7 +91,7 @@ These workflows use the following labels:
 
 ## Automatic Label Creation
 
-Both workflows include functionality to automatically create any required labels if they don't already exist in the repository. This means:
+Both the PR Status Tracking and Release Management workflows include functionality to automatically create any required labels if they don't already exist in the repository. This means:
 
 1. No manual setup of labels is required
 2. The workflows will work in any repository without prior configuration
