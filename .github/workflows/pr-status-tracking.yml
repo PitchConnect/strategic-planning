@@ -18,6 +18,66 @@ jobs:
             
             console.log(`Processing PR #${pr.number}: ${pr.title}`);
             
+            // Define required labels with their colors and descriptions
+            const requiredLabels = [
+              {
+                name: 'in-progress',
+                color: '0052cc',
+                description: 'Issue is being worked on in a draft PR'
+              },
+              {
+                name: 'review-ready',
+                color: '5319e7',
+                description: 'Work is complete and ready for review'
+              },
+              {
+                name: 'merged-to-develop',
+                color: '0e8a16',
+                description: 'Implementation has been merged to develop'
+              },
+              {
+                name: 'released',
+                color: '1d76db',
+                description: 'Feature has been released to production'
+              }
+            ];
+            
+            // Function to ensure a label exists
+            async function ensureLabelExists(labelInfo) {
+              try {
+                // Try to get the label
+                await github.rest.issues.getLabel({
+                  owner,
+                  repo,
+                  name: labelInfo.name
+                });
+                console.log(`Label ${labelInfo.name} already exists`);
+              } catch (error) {
+                if (error.status === 404) {
+                  // Label doesn't exist, create it
+                  try {
+                    await github.rest.issues.createLabel({
+                      owner,
+                      repo,
+                      name: labelInfo.name,
+                      color: labelInfo.color,
+                      description: labelInfo.description
+                    });
+                    console.log(`Created label ${labelInfo.name}`);
+                  } catch (createError) {
+                    console.error(`Error creating label ${labelInfo.name}: ${createError.message}`);
+                  }
+                } else {
+                  console.error(`Error checking label ${labelInfo.name}: ${error.message}`);
+                }
+              }
+            }
+            
+            // Ensure all required labels exist
+            for (const label of requiredLabels) {
+              await ensureLabelExists(label);
+            }
+            
             // Extract issue numbers from PR body using regex
             const issueRefs = pr.body ? pr.body.match(/(close[sd]?|fix(es|ed)?|resolve[sd]?)\s*:?\s*#(\d+)/gi) || [] : [];
             const issueNumbers = issueRefs.map(ref => parseInt(ref.match(/#(\d+)/)[1]));

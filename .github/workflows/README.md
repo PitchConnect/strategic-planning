@@ -65,4 +65,21 @@ These workflows use the following labels:
 - `merged-to-develop`: Implementation has been merged to develop
 - `released`: Feature has been released to production
 
-Make sure these labels exist in your repository.
+**Note:** These labels are automatically created by the workflows if they don't exist in the repository. You don't need to manually create them.
+
+## Automatic Label Creation
+
+Both workflows include functionality to automatically create any required labels if they don't already exist in the repository. This means:
+
+1. No manual setup of labels is required
+2. The workflows will work in any repository without prior configuration
+3. Labels will have consistent colors and descriptions across all repositories
+
+The labels are created with the following properties:
+
+| Label | Color | Description |
+|-------|-------|-------------|
+| `in-progress` | Blue (#0052cc) | Issue is being worked on in a draft PR |
+| `review-ready` | Purple (#5319e7) | Work is complete and ready for review |
+| `merged-to-develop` | Green (#0e8a16) | Implementation has been merged to develop |
+| `released` | Blue (#1d76db) | Feature has been released to production |
